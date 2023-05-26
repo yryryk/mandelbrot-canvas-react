@@ -1,22 +1,18 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
-function Mandelbrot({ width, height, maxIterations, initialZoom, initialCenterX, initialCenterY}) {
-  const canvasRef = useRef(null);
+function Mandelbrot({ width, height, maxIterationsCoefficient, canvasRef, centerX, centerY, zoom, handleWheel}) {
   const [ctx, setCtx] = useState(null);
-  const [centerX, setCenterX] = useState(initialCenterX);
-  const [centerY, setCenterY] = useState(initialCenterY);
-  const [zoom, setZoom] = useState(initialZoom);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     setCtx(canvas.getContext('2d'));
-  }, []);
+  }, [canvasRef]);
   
   useEffect(() => {
     if (ctx) {
       const zoomExponent = Math.log2(zoom);
-      const maxIterations2 = Math.floor(maxIterations + 4*zoomExponent**3);
-      // const maxIterations2 = Math.floor(maxIterations*(zoom**(1/4)));
-      console.log(`maxIterations: ${maxIterations2}`);
+      const maxIterations = Math.floor(200 + maxIterationsCoefficient*4*zoomExponent**3);
+      console.log(`maxIterations: ${maxIterations}`);
       console.log("");
       let imageData = ctx.getImageData(0, 0, width, height);
       let data = imageData.data;
@@ -31,7 +27,7 @@ function Mandelbrot({ width, height, maxIterations, initialZoom, initialCenterX,
           let zy2 = 0;
           let i = 0;
 
-          while (zx2 + zy2 < 4 && i < maxIterations2) {
+          while (zx2 + zy2 < 4 && i < maxIterations) {
             zy = 2 * zx * zy + cy;
             zx = zx2 - zy2 + cx;
             zx2 = zx * zx;
@@ -39,7 +35,7 @@ function Mandelbrot({ width, height, maxIterations, initialZoom, initialCenterX,
             i++;
           }
           const index = (y * width + x) * 4;
-          if (i === maxIterations2) {
+          if (i === maxIterations) {
             data[index] = 0;
             data[index+1] = 0;
             data[index+2] = 0;
@@ -59,28 +55,7 @@ function Mandelbrot({ width, height, maxIterations, initialZoom, initialCenterX,
       }
       ctx.putImageData(imageData, 0, 0);
     }
-  }, [width, height, maxIterations, ctx, centerX, centerY, zoom]);
-  const handleWheel = (e) => {
-    // console.log(e.deltaY);
-    const delta =e.deltaY>0?-1:1;
-    const newZoom = zoom*(2**delta);
-    console.log(`delta: ${delta}`);
-    console.log(`newZoom: ${newZoom}`);
-    if (newZoom  > 0) {
-      const rect = canvasRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-  
-      const newCenterX = centerX + (x - width / 2)  / (width * (zoom )) - (x - width / 2)  / (width * newZoom);
-      const newCenterY = centerY + (y - height / 2)  / (width * (zoom )) - (y - height / 2)  / (width * newZoom);
-  
-      console.log(`newCenterX: ${newCenterX}`);
-      console.log(`newCenterY: ${newCenterY}`);
-      setZoom(newZoom);
-      setCenterX(newCenterX);
-      setCenterY(newCenterY);
-    }
-  };
+  }, [width, height, maxIterationsCoefficient, ctx, centerX, centerY, zoom]);
   
   return <canvas ref={canvasRef} width={width} height={height} onWheel={handleWheel} />;
 }
