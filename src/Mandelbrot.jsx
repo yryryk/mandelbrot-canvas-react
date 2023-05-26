@@ -1,17 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import './Mandelbrot.css';
 
-function Mandelbrot({ width, height, maxIterationsCoefficient, canvasRef, centerX, centerY, zoom, handleWheel}) {
-  const [ctx, setCtx] = useState(null);
+function Mandelbrot(props) {
+  const {
+    width,
+    height,
+    maxIterationsCoefficient,
+    canvasRef,
+    ctx,
+    centerX,
+    centerY,
+    zoom,
+    isZoomIn,
+    isZoomOut,
+    handleWheel,
+    handleZoomIn,
+    handleZoomOut,
+    handleZoom,
+  } = props;
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    setCtx(canvas.getContext('2d'));
-  }, [canvasRef]);
-  
   useEffect(() => {
     if (ctx) {
-      const zoomExponent = Math.log2(zoom);
-      const maxIterations = Math.floor(200 + maxIterationsCoefficient*4*zoomExponent**3);
+      const maxIterations = Math.floor(200 + maxIterationsCoefficient*4*Math.log2(zoom)**3);
       console.log(`maxIterations: ${maxIterations}`);
       console.log("");
       let imageData = ctx.getImageData(0, 0, width, height);
@@ -40,7 +50,7 @@ function Mandelbrot({ width, height, maxIterationsCoefficient, canvasRef, center
             data[index+1] = 0;
             data[index+2] = 0;
             data[index+3] = 255;
-          } else { 
+          } else {
             const r = 127 + 64 * Math.sin((1/50) * i);
             const g = 127 + 64 * Math.sin((1/50) * i);
             const b = 127 + 64 * Math.cos((1/40) * i);
@@ -56,8 +66,16 @@ function Mandelbrot({ width, height, maxIterationsCoefficient, canvasRef, center
       ctx.putImageData(imageData, 0, 0);
     }
   }, [width, height, maxIterationsCoefficient, ctx, centerX, centerY, zoom]);
-  
-  return <canvas ref={canvasRef} width={width} height={height} onWheel={handleWheel} />;
+
+  return (
+    <div className="mandelbrot">
+      <canvas className='mandelbrot__canvas' ref={canvasRef} width={width} height={height} onWheel={handleWheel} onClick={handleZoom} />
+      <div className="mandelbrot__button-container">
+        <button onClick={handleZoomIn} className={`mandelbrot__button mandelbrot__button_in${isZoomIn?" mandelbrot__button_active":""}`}></button>
+        <button onClick={handleZoomOut} className={`mandelbrot__button mandelbrot__button_out${isZoomOut?" mandelbrot__button_active":""}`}></button>
+      </div>
+    </div>
+  );
 }
 
 
