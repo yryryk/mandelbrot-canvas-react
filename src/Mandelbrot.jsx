@@ -20,9 +20,9 @@ function Mandelbrot(props) {
   } = props;
   const [iterations, setIterations] = useState([]);
   const [maxIterations, setMaxIterations] = useState(0);
-  const [red, setRed] = useState(37);
-  const [green, setGreen] = useState(23);
-  const [blue, setBlue] = useState(61);
+  const [red, setRed] = useState(200);
+  const [green, setGreen] = useState(162);
+  const [blue, setBlue] = useState(131);
   const modifierR = useRef(null);
   const modifierG = useRef(null);
   const modifierB = useRef(null);
@@ -147,11 +147,11 @@ function Mandelbrot(props) {
       <canvas className='mandelbrot__canvas' ref={canvasRef} width={width} height={height} onWheel={handleWheel} onClick={handleZoom} />
       <div className="mandelbrot__modifiers">
         <label htmlFor='r'>R-spread</label>
-        <input ref={modifierR} name='r' className="mandelbrot__modifiers-r" type='number' min={1} max={1000} defaultValue={red} />
+        <input ref={modifierR} name='r' className="mandelbrot__modifiers-r" type='number' defaultValue={red} />
         <label htmlFor='r'>G-spread</label>
-        <input ref={modifierG} name='g' className="mandelbrot__modifiers-g" type='number' min={1} max={1000} defaultValue={green} />
+        <input ref={modifierG} name='g' className="mandelbrot__modifiers-g" type='number' defaultValue={green} />
         <label htmlFor='r'>B-spread</label>
-        <input ref={modifierB} name='b' className="mandelbrot__modifiers-b" type='number' min={1} max={1000} defaultValue={blue} />
+        <input ref={modifierB} name='b' className="mandelbrot__modifiers-b" type='number' defaultValue={blue} />
       </div>
     </div>
   );
