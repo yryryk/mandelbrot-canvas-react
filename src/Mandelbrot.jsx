@@ -21,9 +21,9 @@ function Mandelbrot(props) {
   } = props;
   const [iterations, setIterations] = useState([]);
   const [maxIterations, setMaxIterations] = useState(0);
-  const [red, setRed] = useState(100);
-  const [green, setGreen] = useState(81);
-  const [blue, setBlue] = useState(65);
+  const [red, setRed] = useState(53);
+  const [green, setGreen] = useState(47);
+  const [blue, setBlue] = useState(41);
   const modifierR = useRef(null);
   const modifierG = useRef(null);
   const modifierB = useRef(null);

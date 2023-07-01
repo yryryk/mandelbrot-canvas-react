@@ -31,3 +31,13 @@
 - Добавить sidebar menu.
 
 - Использовать более производительный язык программирования для вычислений.
+
+## Галерея
+
+![Фрактал мандельброта в увеличении](https://github.com/yryryk/mandelbrot-canvas-react/blob/main/src/images/mandelbrot-2.png)
+![Фрактал мандельброта в увеличении](https://github.com/yryryk/mandelbrot-canvas-react/blob/main/src/images/mandelbrot-3.png)
+![Фрактал мандельброта в увеличении](https://github.com/yryryk/mandelbrot-canvas-react/blob/main/src/images/mandelbrot-4.png)
+![Фрактал мандельброта в увеличении](https://github.com/yryryk/mandelbrot-canvas-react/blob/main/src/images/mandelbrot-5.png)
+![Фрактал мандельброта в увеличении](https://github.com/yryryk/mandelbrot-canvas-react/blob/main/src/images/mandelbrot-6.png)
+![Фрактал мандельброта в увеличении](https://github.com/yryryk/mandelbrot-canvas-react/blob/main/src/images/mandelbrot-7.png)
+![Фрактал мандельброта в увеличении](https://github.com/yryryk/mandelbrot-canvas-react/blob/main/src/images/mandelbrot-8.png)
