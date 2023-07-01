@@ -39,7 +39,16 @@ function Mandelbrot(props) {
     setBlue(evt.target.value)
   };
   function setIterationsCoefficient(evt) {
-    setMaxIterationsCoefficient(evt.target.value)
+    const newValue = evt.target.value;
+    if((200 + newValue*4*Math.log2(zoom)**3) > 20) {
+      if(newValue > 10) {
+        setMaxIterationsCoefficient(10)
+      } else if(newValue < 0.05) {
+        setMaxIterationsCoefficient(0.05)
+      } else{
+        setMaxIterationsCoefficient(newValue)
+      }
+    }
   };
 
   useEventListener('change', setRedValue, modifierR);
@@ -99,9 +108,6 @@ function Mandelbrot(props) {
       for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
           const i = iterations[y][x];
-          if (x === 1 && y === 1) {
-            console.log(i);
-          }
           const index = (y * width + x) * 4;
           if (i === maxIterations) {
             data[index] = 0;
@@ -136,15 +142,23 @@ function Mandelbrot(props) {
       </div>
       <canvas className='mandelbrot__canvas' ref={canvasRef} width={width} height={height} onClick={handleZoom} />
       <div className="mandelbrot__modifiers">
-        <label htmlFor='r'>R-spread</label>
-        <input ref={modifierR} name='r' className="mandelbrot__modifiers-item" type='number' defaultValue={red} />
-        <label htmlFor='r'>G-spread</label>
-        <input ref={modifierG} name='g' className="mandelbrot__modifiers-item" type='number' defaultValue={green} />
-        <label htmlFor='r'>B-spread</label>
-        <input ref={modifierB} name='b' className="mandelbrot__modifiers-item" type='number' defaultValue={blue} />
+        <div>
+          <label htmlFor='r'>R-spread</label>
+          <input ref={modifierR} name='r' className="mandelbrot__modifiers-item" type='number' defaultValue={red} />
+        </div>
+        <div>
+          <label htmlFor='r'>G-spread</label>
+          <input ref={modifierG} name='g' className="mandelbrot__modifiers-item" type='number' defaultValue={green} />
+        </div>
+        <div>
+          <label htmlFor='r'>B-spread</label>
+          <input ref={modifierB} name='b' className="mandelbrot__modifiers-item" type='number' defaultValue={blue} />
+        </div>
+        <div>
+          <label htmlFor='maxIterations'>MaxIterationsCoefficient</label>
+          <input ref={IterationsCoefficient} name='maxIterations' className="mandelbrot__modifiers-item" type='number' defaultValue={maxIterationsCoefficient} min={0.05} max={10} step={0.05} />
+        </div>
         <p className="mandelbrot__zoom">Zoom: {zoom}</p>
-        <label htmlFor='maxIterations'>MaxIterationsCoefficient</label>
-        <input ref={IterationsCoefficient} name='maxIterations' className="mandelbrot__modifiers-item" type='number' defaultValue={maxIterationsCoefficient} min={0.05} max={10} step={0.05} />
       </div>
     </div>
   );

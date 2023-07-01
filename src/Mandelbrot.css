@@ -57,16 +57,29 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 20px;
   display: flex;
   justify-content: center;
   gap: 20px;
   background-color: #6f6f6f;
-  padding: 5px;
+  padding: 5px 20px;
+}
+
+@media (max-width: 1024px) {
+  .mandelbrot__modifiers {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 440px) {
+  .mandelbrot__modifiers {
+    align-items: center;
+    flex-direction: column;
+  }
 }
 
 .mandelbrot__zoom {
-  margin: 0 0 0 30px;
+  margin: 0 0 0 20px;
   padding: 0 5px;
   border-radius: 4px;
   background-color: rgb(150, 200, 200);
@@ -74,6 +87,9 @@
 
 .mandelbrot__modifiers-item {
   width: 50px;
+  height: 18px;
   border-radius: 4px;
+  padding: 0;
+  margin-left: 8px;
 }
 
