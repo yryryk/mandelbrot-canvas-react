@@ -7,6 +7,7 @@ function Mandelbrot(props) {
     width,
     height,
     maxIterationsCoefficient,
+    setMaxIterationsCoefficient,
     canvasRef,
     ctx,
     centerX,
@@ -14,33 +15,37 @@ function Mandelbrot(props) {
     zoom,
     isZoomIn,
     isZoomOut,
-    handleWheel,
     handleZoomIn,
     handleZoomOut,
     handleZoom,
   } = props;
   const [iterations, setIterations] = useState([]);
   const [maxIterations, setMaxIterations] = useState(0);
-  const [red, setRed] = useState(200);
-  const [green, setGreen] = useState(162);
-  const [blue, setBlue] = useState(131);
+  const [red, setRed] = useState(100);
+  const [green, setGreen] = useState(81);
+  const [blue, setBlue] = useState(65);
   const modifierR = useRef(null);
   const modifierG = useRef(null);
   const modifierB = useRef(null);
+  const IterationsCoefficient = useRef(null);
 
-    function setRedValue(evt) {
-      setRed(evt.target.value)
-    };
-    function setGreenValue(evt) {
-      setGreen(evt.target.value)
-    };
-    function setBlueValue(evt) {
-      setBlue(evt.target.value)
-    };
+  function setRedValue(evt) {
+    setRed(evt.target.value)
+  };
+  function setGreenValue(evt) {
+    setGreen(evt.target.value)
+  };
+  function setBlueValue(evt) {
+    setBlue(evt.target.value)
+  };
+  function setIterationsCoefficient(evt) {
+    setMaxIterationsCoefficient(evt.target.value)
+  };
 
   useEventListener('change', setRedValue, modifierR);
   useEventListener('change', setGreenValue, modifierG);
   useEventListener('change', setBlueValue, modifierB);
+  useEventListener('change', setIterationsCoefficient, IterationsCoefficient);
 
   useEffect(() => {
     const data = () => {
@@ -129,14 +134,17 @@ function Mandelbrot(props) {
         <button onClick={handleZoomIn} className={`mandelbrot__button mandelbrot__button_in${isZoomIn?" mandelbrot__button_active":""}`}></button>
         <button onClick={handleZoomOut} className={`mandelbrot__button mandelbrot__button_out${isZoomOut?" mandelbrot__button_active":""}`}></button>
       </div>
-      <canvas className='mandelbrot__canvas' ref={canvasRef} width={width} height={height} onWheel={handleWheel} onClick={handleZoom} />
+      <canvas className='mandelbrot__canvas' ref={canvasRef} width={width} height={height} onClick={handleZoom} />
       <div className="mandelbrot__modifiers">
         <label htmlFor='r'>R-spread</label>
-        <input ref={modifierR} name='r' className="mandelbrot__modifiers-r" type='number' defaultValue={red} />
+        <input ref={modifierR} name='r' className="mandelbrot__modifiers-item" type='number' defaultValue={red} />
         <label htmlFor='r'>G-spread</label>
-        <input ref={modifierG} name='g' className="mandelbrot__modifiers-g" type='number' defaultValue={green} />
+        <input ref={modifierG} name='g' className="mandelbrot__modifiers-item" type='number' defaultValue={green} />
         <label htmlFor='r'>B-spread</label>
-        <input ref={modifierB} name='b' className="mandelbrot__modifiers-b" type='number' defaultValue={blue} />
+        <input ref={modifierB} name='b' className="mandelbrot__modifiers-item" type='number' defaultValue={blue} />
+        <p className="mandelbrot__zoom">Zoom: {zoom}</p>
+        <label htmlFor='maxIterations'>MaxIterationsCoefficient</label>
+        <input ref={IterationsCoefficient} name='maxIterations' className="mandelbrot__modifiers-item" type='number' defaultValue={maxIterationsCoefficient} min={0.05} max={10} step={0.05} />
       </div>
     </div>
   );
