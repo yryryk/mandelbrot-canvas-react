@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useEventListener } from 'usehooks-ts';
 import './Mandelbrot.css';
 
 function Mandelbrot(props) {
@@ -27,7 +28,6 @@ function Mandelbrot(props) {
   const modifierG = useRef(null);
   const modifierB = useRef(null);
 
-  useEffect (() => {
     function setRedValue(evt) {
       setRed(evt.target.value)
     };
@@ -37,30 +37,15 @@ function Mandelbrot(props) {
     function setBlueValue(evt) {
       setBlue(evt.target.value)
     };
-    let rModifier;
-    let gModifier;
-    let bModifier;
-    if(modifierR&&modifierG&&modifierB) {
-      rModifier = modifierR.current;
-      gModifier = modifierG.current;
-      bModifier = modifierB.current;
 
-      rModifier.addEventListener('change', setRedValue);
-      gModifier.addEventListener('change', setGreenValue);
-      bModifier.addEventListener('change', setBlueValue);
-    }
-    return () => {
-      rModifier.removeEventListener('change', setRedValue);
-      gModifier.removeEventListener('change', setGreenValue);
-      bModifier.removeEventListener('change', setBlueValue);
-
-    }
-  }, [])
+  useEventListener('change', setRedValue, modifierR);
+  useEventListener('change', setGreenValue, modifierG);
+  useEventListener('change', setBlueValue, modifierB);
 
   useEffect(() => {
     const data = () => {
-      const maxIterationsInner = Math.floor(200 + maxIterationsCoefficient*4*Math.log2(zoom)**3);
-      console.log(`maxIterations: ${maxIterationsInner}`);
+      const maxIterationsСalculated = Math.floor(200 + maxIterationsCoefficient*4*Math.log2(zoom)**3);
+      console.log(`maxIterations: ${maxIterationsСalculated}`);
       console.log("");
       const arr = [];
       for (let y = 0; y < height; y++) {
@@ -75,7 +60,7 @@ function Mandelbrot(props) {
           let zy2 = 0;
           let i = 0;
 
-          while (zx2 + zy2 < 4 && i < maxIterationsInner) {
+          while (zx2 + zy2 < 4 && i < maxIterationsСalculated) {
             zy = 2 * zx * zy + cy;
             zx = zx2 - zy2 + cx;
             zx2 = zx * zx;
@@ -86,14 +71,14 @@ function Mandelbrot(props) {
         }
         arr.push(subArr)
       }
-      return {arr, maxIterationsInner}
+      return {arr, maxIterationsСalculated}
     }
 
     async function calculate() {
       const iterations = await data();
       if(iterations) {
         setIterations(iterations.arr)
-        setMaxIterations(iterations.maxIterationsInner);
+        setMaxIterations(iterations.maxIterationsСalculated);
       }
     };
 
