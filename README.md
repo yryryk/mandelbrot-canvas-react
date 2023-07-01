@@ -10,7 +10,7 @@
 
 ### [Ссылка на сайт](https://www.extra-develop.ru/)
 
-<img alt="Фрактал мандельброта в увеличении " src="https://github.com/yryryk/mandelbrot-canvas-react/blob/main/src/images/mandelbrot-1.png">
+[![Фрактал мандельброта в увеличении](https://github.com/yryryk/mandelbrot-canvas-react/blob/main/src/images/mandelbrot-1.png)](https://www.extra-develop.ru/)
 
 ## Запустить проект
 
