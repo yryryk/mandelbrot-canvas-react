@@ -2,8 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useEventListener } from 'usehooks-ts';
 import './Mandelbrot.css';
 
-function Mandelbrot(props) {
-  const {
+function Mandelbrot({
     width,
     height,
     maxIterationsCoefficient,
@@ -18,7 +17,7 @@ function Mandelbrot(props) {
     handleZoomIn,
     handleZoomOut,
     handleZoom,
-  } = props;
+  }) {
   const [iterations, setIterations] = useState([]);
   const [maxIterations, setMaxIterations] = useState(0);
   const [red, setRed] = useState(53);
@@ -89,17 +88,17 @@ function Mandelbrot(props) {
     }
 
     async function calculate() {
-      const iterations = await data();
-      if(iterations) {
-        setIterations(iterations.arr)
-        setMaxIterations(iterations.maxIterationsСalculated);
+      const iterationsСalculated = await data();
+      if(iterationsСalculated) {
+        setIterations(iterationsСalculated.arr)
+        setMaxIterations(iterationsСalculated.maxIterationsСalculated);
       }
     };
 
     if (ctx) {
       calculate()
     }
-  }, [width, height, maxIterationsCoefficient, ctx, centerX, centerY, zoom, maxIterations]);
+  }, [width, height, maxIterationsCoefficient, ctx, centerX, centerY, zoom]);
 
   useEffect(() => {
     function renderCanvas(ctx, maxIterations, rgbModifiers) {
@@ -130,9 +129,9 @@ function Mandelbrot(props) {
       ctx.putImageData(imageData, 0, 0);
     }
     if (ctx&&maxIterations) {
-      renderCanvas(ctx, maxIterations, {r: red,g: green,b: blue})
+      renderCanvas(ctx, maxIterations, {r: red, g: green,b: blue})
     }
-  }, [blue, ctx, green, height, iterations, maxIterations, red, width]);
+  }, [blue, green, red, ctx, iterations, maxIterations]); // No resize bug without width and height in dependenses
 
   return (
     <div className="mandelbrot">

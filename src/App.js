@@ -1,11 +1,12 @@
 import './App.css';
 import Mandelbrot from './Mandelbrot';
 import { useState, useRef, useEffect } from 'react';
+import { useEventListener } from 'usehooks-ts';
 
 function App() {
   const canvasRef = useRef(null);
-  const width = window.innerWidth;
-  const height = window.innerHeight-29;
+  const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight-29);
   const [centerX, setCenterX] = useState(-0.75);
   const [centerY, setCenterY] = useState(0);
   const [zoom, setZoom] = useState(1/4);
@@ -14,6 +15,13 @@ function App() {
   const [canvas, setCanvas] = useState(null);
   const [isZoomIn, setIsZoomIn] = useState(false);
   const [isZoomOut, setIsZoomOut] = useState(false);
+
+  function setWindowSize() {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight-29);
+  };
+
+  useEventListener('resize', setWindowSize, document);
 
   useEffect(() => {
     setCanvas(canvasRef.current);
